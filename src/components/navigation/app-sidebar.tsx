@@ -1,23 +1,11 @@
 "use client";
 
-import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { Search } from "lucide-react";
 
-import { NavMain } from "@/components/navigation/nav-main";
-import { NavProjects } from "@/components/navigation/nav-projects";
 import { NavUser } from "@/components/navigation/nav-user";
-import { TeamSwitcher } from "@/components/navigation/team-switcher";
+import { Input } from "@/components/ui/input";
 import {
   Sidebar,
   SidebarContent,
@@ -25,146 +13,73 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { ShopCard } from "@/components/app/shop-card";
 
-// This is sample data.
 const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/logos/.jpg",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
 };
 
+const shops = [
+  {
+    name: "French Laundry",
+    address: "Jl. Citra Raya Made",
+    image: "/images/coffee-shop.png",
+    isOpen: true,
+    isFavorite: true,
+  },
+  {
+    name: "Coffee & Code",
+    address: "Jl. Tekno No. 21",
+    image: "/images/coffee-shop.png",
+    isOpen: false,
+    isFavorite: false,
+  },
+];
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+      <SidebarHeader className="flex items-center">
+        <Image
+          src="/logos/logo-black.png"
+          alt="Logo"
+          width={100}
+          height={100}
+        />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* Search Bar */}
+        <div className="my-4 relative px-4">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search shops by name..."
+            value={searchTerm}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className=" pl-10 max-w-sm"
+          />
+        </div>
+        {/* Map shops to ShopCard in the sidebar */}
+        <div className="px-4 pb-4 pt-2 flex flex-col gap-3">
+          {shops.map((shop) => (
+            <ShopCard
+              key={shop.name}
+              {...shop}
+              compact
+              className="w-full max-w-none"
+            />
+          ))}
+        </div>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
