@@ -88,7 +88,7 @@ export function ShopCard({
           <div className="shrink-0">
             <Coffee
               className={cn(
-                "text-slate-900",
+                "text-primary-foreground",
                 compact ? "w-8 h-8" : "w-14 h-14"
               )}
             />

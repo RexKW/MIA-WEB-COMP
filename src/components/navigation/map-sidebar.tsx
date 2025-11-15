@@ -36,10 +36,6 @@ export function MapSidebar({
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedShop, setSelectedShop] = useState<string | "All">("All");
 
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-  };
-
   const filteredShops = shopsData.filter((s) => {
     const matchesSearch = s.name
       .toLowerCase()
@@ -48,6 +44,10 @@ export function MapSidebar({
       selectedShop === "All" ? true : s.category === selectedShop;
     return matchesSearch && matchesSelected;
   });
+  
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+  };
 
   if (state === "collapsed") {
     return (
@@ -66,7 +66,7 @@ export function MapSidebar({
       <SidebarHeader className="flex items-center">
         {/* Logo */}
         <Image
-          src="/logos/logo-black.png"
+          src="/logos/logo-green.png"
           alt="Logo"
           width={100}
           height={100}
