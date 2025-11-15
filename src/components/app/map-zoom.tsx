@@ -2,12 +2,7 @@
 
 import { useMap } from "react-leaflet";
 import { useEffect } from "react";
-
-interface Shop {
-  id: string;
-  latitude: number;
-  longitude: number;
-}
+import { Shop } from "@/types/shop";
 
 interface MapZoomProps {
   shops: Shop[];

@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Search, Shirt, Utensils, UserRound } from "lucide-react";
+import { Shop } from "@/types/shop";
 
+import { ShopCard } from "@/components/app/shop-card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,19 +14,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { ShopCard } from "@/components/app/shop-card";
-
-interface Shop {
-  id: string;
-  name: string;
-  address: string;
-  image: string;
-  latitude: number;
-  longitude: number;
-  category: string;
-  isOpen: boolean;
-  isFavorite: boolean;
-}
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   shops?: Shop[];
@@ -100,6 +89,7 @@ export function AppSidebar({
 
   return (
     <Sidebar collapsible="icon" {...props}>
+      {/* Sidebar Header */}
       <SidebarHeader className="flex items-center">
         {/* Logo */}
         <Image
@@ -150,6 +140,7 @@ export function AppSidebar({
           </div>
         </div>
       </SidebarHeader>
+      {/* Sidebar Content */}
       <SidebarContent className="hide-scrollbar">
         {/* Shop Cards */}
         <div className="px-8 flex flex-col">

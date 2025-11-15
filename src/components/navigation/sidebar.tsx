@@ -1,21 +1,11 @@
-import { AppSidebar } from "./app-sidebar";
+import { Shop } from "@/types/shop";
+
+import { AppSidebar } from "@/components/navigation/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-
-interface Shop {
-  id: string;
-  name: string;
-  address: string;
-  image: string;
-  latitude: number;
-  longitude: number;
-  category: string;
-  isOpen: boolean;
-  isFavorite: boolean;
-}
 
 interface SidebarProps {
   children: React.ReactNode;

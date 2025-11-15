@@ -1,17 +1,14 @@
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { MapPin, Star, Coffee } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface ShopCardProps {
   id: string;
   name: string;
   address: string;
   image: string;
-  latitude: number;
-  longitude: number;
-  category?: string;
   isOpen?: boolean;
   isFavorite?: boolean;
   className?: string;
