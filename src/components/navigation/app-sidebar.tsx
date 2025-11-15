@@ -26,6 +26,11 @@ interface Shop {
   isFavorite: boolean;
 }
 
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  shops?: Shop[];
+  onShopClick?: (shopId: string) => void;
+}
+
 const shops = [
   {
     id: "1",
@@ -71,12 +76,11 @@ const categoryIcons: Record<
   Pakaian: Shirt,
 };
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  shops?: Shop[];
-  onShopClick?: (shopId: string) => void;
-}
-
-export function AppSidebar({ shops: propShops, onShopClick, ...props }: AppSidebarProps) {
+export function AppSidebar({
+  shops: propShops,
+  onShopClick,
+  ...props
+}: AppSidebarProps) {
   const shopsData = propShops || shops;
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedShop, setSelectedShop] = useState<string | "All">("All");
@@ -155,12 +159,7 @@ export function AppSidebar({ shops: propShops, onShopClick, ...props }: AppSideb
               onClick={() => onShopClick?.(shop.id)}
               className="cursor-pointer"
             >
-              <ShopCard
-                {...shop}
-                compact
-                variant="flat"
-                className="w-full"
-              />
+              <ShopCard {...shop} compact variant="flat" className="w-full" />
             </div>
           ))}
         </div>

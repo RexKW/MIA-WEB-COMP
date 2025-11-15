@@ -1,9 +1,38 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Map } from "@/components/app/map";
-import { AppSidebar } from "@/components/navigation/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { Sidebar } from "@/components/navigation/sidebar";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const Map = dynamic(
+  () => import("@/components/app/map").then((mod) => ({ default: mod.Map })),
+  {
+    ssr: false,
+    loading: () => (
+      <Card className="h-full w-full flex items-center justify-center bg-muted/50">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative">
+            <Skeleton className="h-64 w-96 rounded-lg" />
+            <div className="absolute inset-2 grid grid-cols-3 grid-rows-3 gap-1">
+              {Array.from({ length: 9 }).map((_, i) => (
+                <Skeleton
+                  key={i}
+                  className="h-full w-full rounded-sm opacity-60"
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-3 w-24" />
+          </div>
+        </div>
+      </Card>
+    ),
+  }
+);
 
 const shops = [
   {
@@ -45,15 +74,8 @@ export default function MapPage() {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AppSidebar shops={shops} onShopClick={setActiveShopId} />
-        <main className="flex-1 p-8">
-          <div className="h-[calc(100vh-4rem)] w-full rounded-lg overflow-hidden shadow-lg">
-            <Map shops={shops} activeShopId={activeShopId} />
-          </div>
-        </main>
-      </div>
-    </SidebarProvider>
+    <Sidebar shops={shops} onShopClick={setActiveShopId}>
+      <Map shops={shops} activeShopId={activeShopId} />
+    </Sidebar>
   );
 }
