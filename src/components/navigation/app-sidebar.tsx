@@ -1,174 +1,169 @@
 "use client";
 
-import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { Search, Shirt, Utensils, UserRound } from "lucide-react";
 
-import { NavMain } from "@/components/navigation/nav-main";
-import { NavProjects } from "@/components/navigation/nav-projects";
-import { NavUser } from "@/components/navigation/nav-user";
-import { TeamSwitcher } from "@/components/navigation/team-switcher";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { ShopCard } from "@/components/app/shop-card";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+interface Shop {
+  id: string;
+  name: string;
+  address: string;
+  image: string;
+  latitude: number;
+  longitude: number;
+  category: string;
+  isOpen: boolean;
+  isFavorite: boolean;
+}
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  shops?: Shop[];
+  onShopClick?: (shopId: string) => void;
+}
+
+const shops = [
+  {
+    id: "1",
+    name: "French Laundry",
+    address: "Jl. Citra Raya Made",
+    image: "/images/coffee-shop.png",
+    latitude: -6.302,
+    longitude: 106.652,
+    isOpen: true,
+    isFavorite: true,
+    category: "Jasa",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+  {
+    id: "2",
+    name: "Coffee & Code",
+    address: "Jl. Tekno No. 21",
+    latitude: -6.403,
+    longitude: 109.653,
+    image: "/images/coffee-shop.png",
+    isOpen: false,
+    isFavorite: false,
+    category: "Makanan",
+  },
+  {
+    id: "3",
+    name: "Citra Boutique",
+    address: "Citraland Boulevard",
+    image: "/images/coffee-shop.png",
+    latitude: -6.504,
+    longitude: 107.654,
+    isOpen: false,
+    isFavorite: false,
+    category: "Pakaian",
+  },
+];
+
+const categoryIcons: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
+  Jasa: UserRound,
+  Makanan: Utensils,
+  Pakaian: Shirt,
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  shops: propShops,
+  onShopClick,
+  ...props
+}: AppSidebarProps) {
+  const shopsData = propShops || shops;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedShop, setSelectedShop] = useState<string | "All">("All");
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  const filteredShops = shopsData.filter((s) => {
+    const matchesSearch = s.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesSelected =
+      selectedShop === "All" ? true : s.category === selectedShop;
+    return matchesSearch && matchesSelected;
+  });
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+      <SidebarHeader className="flex items-center">
+        {/* Logo */}
+        <Image
+          src="/logos/logo-black.png"
+          alt="Logo"
+          width={100}
+          height={100}
+        />
+        {/* Search Bar */}
+        <div className="mt-4 relative px-6 w-full">
+          <Search className="absolute left-10 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search shops by name..."
+            value={searchTerm}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className=" pl-12 max-w-sm"
+          />
+        </div>
+        {/* Map Categories */}
+        <div className="overflow-x-auto hide-scrollbar w-full pl-6 mt-2">
+          <div className="inline-flex items-center gap-2">
+            <Badge
+              variant={selectedShop === "All" ? "default" : "secondary"}
+              className="cursor-pointer font-bold"
+              onClick={() => setSelectedShop("All")}
+            >
+              All
+            </Badge>
+            {Array.from(new Set(shopsData.map((s) => s.category))).map(
+              (category) => {
+                const IconComponent = categoryIcons[category];
+                return (
+                  <Badge
+                    key={category}
+                    variant={
+                      selectedShop === category ? "default" : "secondary"
+                    }
+                    className="cursor-pointer font-bold flex items-center gap-1"
+                    onClick={() => setSelectedShop(category)}
+                  >
+                    {IconComponent && <IconComponent className="w-4 h-4" />}
+                    {category}
+                  </Badge>
+                );
+              }
+            )}
+          </div>
+        </div>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+      <SidebarContent className="hide-scrollbar">
+        {/* Shop Cards */}
+        <div className="px-8 flex flex-col">
+          {filteredShops.map((shop) => (
+            <div
+              key={shop.id}
+              onClick={() => onShopClick?.(shop.id)}
+              className="cursor-pointer"
+            >
+              <ShopCard {...shop} compact variant="flat" className="w-full" />
+            </div>
+          ))}
+        </div>
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
