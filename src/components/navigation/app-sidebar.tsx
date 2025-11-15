@@ -14,27 +14,48 @@ import {
 } from "@/components/ui/sidebar";
 import { ShopCard } from "@/components/app/shop-card";
 
+interface Shop {
+  id: string;
+  name: string;
+  address: string;
+  image: string;
+  latitude: number;
+  longitude: number;
+  category: string;
+  isOpen: boolean;
+  isFavorite: boolean;
+}
+
 const shops = [
   {
+    id: "1",
     name: "French Laundry",
     address: "Jl. Citra Raya Made",
     image: "/images/coffee-shop.png",
+    latitude: -6.302,
+    longitude: 106.652,
     isOpen: true,
     isFavorite: true,
     category: "Jasa",
   },
   {
+    id: "2",
     name: "Coffee & Code",
     address: "Jl. Tekno No. 21",
+    latitude: -6.403,
+    longitude: 109.653,
     image: "/images/coffee-shop.png",
     isOpen: false,
     isFavorite: false,
     category: "Makanan",
   },
   {
+    id: "3",
     name: "Citra Boutique",
     address: "Citraland Boulevard",
     image: "/images/coffee-shop.png",
+    latitude: -6.504,
+    longitude: 107.654,
     isOpen: false,
     isFavorite: false,
     category: "Pakaian",
@@ -50,7 +71,13 @@ const categoryIcons: Record<
   Pakaian: Shirt,
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  shops?: Shop[];
+  onShopClick?: (shopId: string) => void;
+}
+
+export function AppSidebar({ shops: propShops, onShopClick, ...props }: AppSidebarProps) {
+  const shopsData = propShops || shops;
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedShop, setSelectedShop] = useState<string | "All">("All");
 
@@ -58,7 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     setSearchTerm(value);
   };
 
-  const filteredShops = shops.filter((s) => {
+  const filteredShops = shopsData.filter((s) => {
     const matchesSearch = s.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -98,7 +125,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               All
             </Badge>
-            {Array.from(new Set(shops.map((s) => s.category))).map(
+            {Array.from(new Set(shopsData.map((s) => s.category))).map(
               (category) => {
                 const IconComponent = categoryIcons[category];
                 return (
@@ -123,13 +150,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* Shop Cards */}
         <div className="px-8 flex flex-col">
           {filteredShops.map((shop) => (
-            <ShopCard
-              key={shop.name}
-              {...shop}
-              compact
-              variant="flat"
-              className="w-full"
-            />
+            <div
+              key={shop.id}
+              onClick={() => onShopClick?.(shop.id)}
+              className="cursor-pointer"
+            >
+              <ShopCard
+                {...shop}
+                compact
+                variant="flat"
+                className="w-full"
+              />
+            </div>
           ))}
         </div>
       </SidebarContent>

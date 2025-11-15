@@ -5,9 +5,12 @@ import { MapPin, Star, Coffee } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ShopCardProps {
+  id: string;
   name: string;
   address: string;
   image: string;
+  latitude: number;
+  longitude: number;
   category?: string;
   isOpen?: boolean;
   isFavorite?: boolean;
