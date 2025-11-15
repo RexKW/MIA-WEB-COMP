@@ -55,7 +55,7 @@ export default function ShopCataloguePage() {
       <div className="flex-1 transition-all duration-300">
         {/* HEADER */}
         <header className="bg-white shadow-sm w-full border-b border-[#46C4FF33]">
-          <div className="px-6 py-5 max-w-6xl mx-auto flex flex-col gap-4">
+          <div className="px-6 py-5 max-w-7xl mx-auto flex flex-col gap-4">
             {/* Top Row */}
             <div className="flex items-center gap-4">
               {!sidebarOpen && (
@@ -66,7 +66,7 @@ export default function ShopCataloguePage() {
                   <Menu className="w-5 h-5 text-[#0056A3]" />
                 </button>
               )}
-              <div className="text-3xl font-bold text-emerald-700 tracking-tight">
+              <div className="text-2xl font-bold text-emerald-700 tracking-tight">
                 Catalogue
               </div>
             </div>
@@ -79,7 +79,7 @@ export default function ShopCataloguePage() {
                 placeholder="Search coffee and more…"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-[#46C4FF66] bg-[#46C4FF20] focus:outline-none focus:ring-2 focus:ring-[#46C4FF] text-gray-700"
+                className="w-full pl-12 pr-4 py-2 rounded-3xl border border-[#46C4FF66] bg-[#46C4FF20] focus:outline-none focus:ring-2 focus:ring-[#46C4FF] text-gray-700"
               />
             </div>
           </div>
@@ -101,8 +101,8 @@ export default function ShopCataloguePage() {
                 key={s.key}
                 onClick={() => setSortType(s.key)}
                 className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition shadow-sm border ${sortType === s.key
-                    ? "bg-[#0056A3] text-white border-blue-600 shadow-md"
-                    : "bg-white text-[#0056A3] border-[#46C4FF66] hover:bg-[#46C4FF20]"
+                  ? "bg-[#0056A3] text-white border-blue-600 shadow-md"
+                  : "bg-white text-[#0056A3] border-[#46C4FF66] hover:bg-[#46C4FF20]"
                   }`}
               >
                 {s.label}
