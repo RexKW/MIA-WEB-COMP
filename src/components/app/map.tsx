@@ -1,16 +1,16 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { MapZoom } from "./map-zoom";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { Shop } from "@/types/shop";
+import { MapZoom } from "@/components/app/map-zoom";
 
 function ZoomControlPositioner() {
   const map = useMap();
 
   useEffect(() => {
-    // Move zoom control to top right
     const zoomControl = map.zoomControl;
     if (zoomControl) {
       zoomControl.setPosition("topright");
@@ -18,13 +18,6 @@ function ZoomControlPositioner() {
   }, [map]);
 
   return null;
-}
-
-interface Shop {
-  id: string;
-  name: string;
-  latitude: number;
-  longitude: number;
 }
 
 interface MapProps {
@@ -54,7 +47,7 @@ export function Map({ shops, activeShopId }: MapProps) {
       key="main-map"
       center={defaultCenter}
       zoom={defaultZoom}
-      style={{ height: "100vh", width: "100%" }}
+      style={{ height: "100%", width: "100%" }}
       scrollWheelZoom={false}
     >
       <TileLayer

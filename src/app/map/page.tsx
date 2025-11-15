@@ -2,9 +2,42 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Sidebar } from "@/components/navigation/sidebar";
+
+import { Shop } from "@/types/shop";
+import { shops } from "@/utils/shop";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+import { MapMobile } from "@/components/app/map-mobile";
+import { MapSidebar } from "@/components/navigation/map-sidebar";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+
+const MapPageSidebar = ({
+  children,
+  shops,
+  onShopClick,
+}: {
+  children: React.ReactNode;
+  shops?: Shop[];
+  onShopClick?: (shopId: string) => void;
+}) => (
+  <SidebarProvider>
+    <MapSidebar shops={shops} onShopClick={onShopClick} />
+    <SidebarInset className="flex flex-col relative">
+      <div className="absolute top-4 left-4 z-10000">
+        <div className="bg-background/95 backdrop-blur-md rounded-md border shadow-xl p-2 min-w-11 min-h-11 hidden md:flex items-center justify-center">
+          <SidebarTrigger />
+        </div>
+      </div>
+      <div className="flex-1 overflow-hidden">{children}</div>
+    </SidebarInset>
+  </SidebarProvider>
+);
 
 const Map = dynamic(
   () => import("@/components/app/map").then((mod) => ({ default: mod.Map })),
@@ -34,48 +67,17 @@ const Map = dynamic(
   }
 );
 
-const shops = [
-  {
-    id: "1",
-    name: "French Laundry",
-    address: "Jl. Citra Raya Made",
-    image: "/images/coffee-shop.png",
-    latitude: -6.302,
-    longitude: 106.652,
-    isOpen: true,
-    isFavorite: true,
-    category: "Jasa",
-  },
-  {
-    id: "2",
-    name: "Coffee & Code",
-    address: "Jl. Tekno No. 21",
-    latitude: -6.403,
-    longitude: 106.653,
-    image: "/images/coffee-shop.png",
-    isOpen: false,
-    isFavorite: false,
-    category: "Makanan",
-  },
-  {
-    id: "3",
-    name: "Citra Boutique",
-    address: "Citraland Boulevard",
-    image: "/images/coffee-shop.png",
-    latitude: -6.504,
-    longitude: 106.654,
-    isOpen: false,
-    isFavorite: false,
-    category: "Pakaian",
-  },
-];
-
 export default function MapPage() {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MapMobile shops={shops} />;
+  }
 
   return (
-    <Sidebar shops={shops} onShopClick={setActiveShopId}>
+    <MapPageSidebar shops={shops} onShopClick={setActiveShopId}>
       <Map shops={shops} activeShopId={activeShopId} />
-    </Sidebar>
+    </MapPageSidebar>
   );
 }
