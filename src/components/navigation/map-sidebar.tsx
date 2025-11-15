@@ -44,7 +44,7 @@ export function MapSidebar({
       selectedShop === "All" ? true : s.category === selectedShop;
     return matchesSearch && matchesSelected;
   });
-  
+
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
   };

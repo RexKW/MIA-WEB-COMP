@@ -10,10 +10,9 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="flex flex-col relative">
-        <div className="absolute top-4 left-4 z-10000">
-          <div className="bg-background/95 backdrop-blur-md rounded-md border shadow-xl p-1">
-            <SidebarTrigger />
-          </div>
+        <div className="flex items-center gap-3 px-4 py-3">
+          {/* Sidebar Trigger */}
+          <SidebarTrigger className="-ml-1" />
         </div>
         <div className="flex-1 overflow-hidden">{children}</div>
       </SidebarInset>

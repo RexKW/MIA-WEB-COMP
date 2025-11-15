@@ -47,7 +47,7 @@ export function Map({ shops, activeShopId }: MapProps) {
       key="main-map"
       center={defaultCenter}
       zoom={defaultZoom}
-      style={{ height: "100vh", width: "100%" }}
+      style={{ height: "100%", width: "100%" }}
       scrollWheelZoom={false}
     >
       <TileLayer
