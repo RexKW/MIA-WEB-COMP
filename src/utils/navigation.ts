@@ -16,4 +16,14 @@ export const navItems = [
     url: "/favorites",
     icon: Star,
   },
+  {
+    title: "Catalogue",
+    url: "/shops/id/catalogue",
+    icon: Star,
+  },
+  {
+    title: "Media",
+    url: "/shops/id/media",
+    icon: Star,
+  }
 ];
