@@ -46,7 +46,7 @@ export default function ShopMediaPage({ params }: { params: Promise<{ id: string
             <div className="flex items-center gap-3">
               <SidebarTrigger className="-ml-1" />
               <h1 className="text-lg sm:text-2xl font-bold text-emerald-700 tracking-tight line-clamp-1">
-                {shop.name} - Media Video
+                {shop.name} - Media
               </h1>
             </div>
 

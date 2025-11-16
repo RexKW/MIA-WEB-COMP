@@ -1,22 +1,26 @@
 import { Eye, Play } from "lucide-react";
+import Image from "next/image";
+import { MediaVideo } from "@/types/shop";
 
-export function ShopMediaCard({ video }: { video: Video }) {
+export function ShopMediaCard({ video }: { video: MediaVideo }) {
   return (
     <div className="bg-white rounded-2xl border border-[#46C4FF33] shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer w-full">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
-        <img
+      <div className="relative aspect-4/5 overflow-hidden rounded-xl">
+        <Image
           src={video.thumbnail}
           alt={video.title}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+          fill
+          unoptimized
+          className="object-cover transition-transform duration-300 hover:scale-110"
         />
 
-        <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-all flex items-center justify-center">
+        <div className="absolute inset-0 bg-opacity-0 hover:bg-opacity-30 transition-all flex items-center justify-center">
           <div className="bg-white rounded-full p-3 opacity-0 hover:opacity-100 transform scale-75 hover:scale-100 transition-all shadow-md">
             <Play className="w-6 h-6 text-emerald-600" />
           </div>
         </div>
 
-        <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+        <div className="absolute bottom-2 right-2 bg-opacity-70 text-white text-xs px-2 py-1 rounded">
           {video.duration}
         </div>
       </div>
