@@ -1,11 +1,12 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search, ShoppingBag } from "lucide-react";
 import { use, useState } from "react";
 import { ShopMediaCard } from "@/components/app/shop-media-card";
 import { shops } from "@/utils/shop";
 import { notFound } from "next/navigation";
 import { AppSidebar } from "@/components/navigation/app-sidebar";
+import { navItems } from "@/utils/navigation";
 import {
   SidebarInset,
   SidebarProvider,
@@ -19,6 +20,26 @@ export default function ShopMediaPage({ params }: { params: Promise<{ id: string
   if (!shop) {
     notFound();
   }
+
+  const shopNavItems = [
+    ...navItems,
+    {
+      title: shop.name,
+      url: `/shops/${shop.id}`,
+      icon: ShoppingBag,
+      isActive: true,
+      items: [
+        {
+          title: "Catalog",
+          url: `/shops/${shop.id}/catalog`,
+        },
+        {
+          title: "Media",
+          url: `/shops/${shop.id}/media`,
+        },
+      ],
+    },
+  ];
 
   const [searchText, setSearchText] = useState("");
 
@@ -37,7 +58,7 @@ export default function ShopMediaPage({ params }: { params: Promise<{ id: string
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar items={shopNavItems} />
       <SidebarInset className="flex flex-col h-screen overflow-hidden">
         {/* HEADER - Fixed */}
         <header className="shrink-0 bg-background shadow-sm border-b border-[#46C4FF33]">
