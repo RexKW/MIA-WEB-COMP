@@ -158,10 +158,10 @@ export default function HomePage() {
         <div className="relative flex flex-col lg:flex-row w-full h-screen z-10">
           <div className="flex flex-col p-5 ml-2 lg:ml-10 mt-20 mb-5 lg:mt-40 md:basis-2/3 pointer-events-none">
             <div ref={titleRef}>
-              <h1 className="font-montserrat text-5xl md:text-6xl font-black text-white">
+              <h1 className="font-montserrat text-3xl md:text-6xl font-black text-white">
                 EMPOWERING LOCAL
               </h1>
-              <h1 className="text-5xl md:text-6xl font-montserrat font-black text-white">
+              <h1 className="text-3xl md:text-6xl font-montserrat font-black text-white">
                 EXPANDING REACH
               </h1>
             </div>
