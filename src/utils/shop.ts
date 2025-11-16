@@ -128,7 +128,7 @@ export const shops: Shop[] = [
         id: 2002,
         title: "Tips Merawat Sepatu Putih",
         thumbnail:
-          "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxw5U1W0FgZVJqlf1HjK-DE86jphiJBLUa2i2pKZXnXiLSBoEoSPcKEGo6IhlBHzKVQmJMCpprh1Ajjw71Ir5UHSTE3Bq9EE3bq3Laju6U7y345Sj7HNn6HxbU9tjYUFRD5st-Ftw=s1360-w1360-h1020-rw",
+          "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxw5U1W0FgZVJqlf1HjK-DE86jphiJBLUa2i2pKZXnXiLSBoEoSPcKEGo6IhlBHzKVQmJMCpprh1Ajjw71Ir5UHSTE3Bq9EE3bq3Laju6U7y345Sj7HNn6HxbU9tjYUFRD5st-Ftw=s1360-w1360-h1020-rw ",
         duration: "3:45",
         views: "22.8K",
       },
@@ -138,7 +138,7 @@ export const shops: Shop[] = [
     id: "3",
     name: "Kampung Batik",
     address:
-      "Jl. Putat Jaya Barat VIII B No.31, Putat Jaya, Kec. Sawahan, Surabaya, Jawa Timur 60255",
+      "Jl. Putat Jaya Barat VIII B No.31, Putat Jaya",
     city: "Surabaya",
     description:
       "UMKM Butik batik yang berfokus pada batik tulis dan cap khas Jawa Timuran dengan desain modern.",
