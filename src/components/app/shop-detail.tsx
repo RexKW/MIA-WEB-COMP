@@ -33,7 +33,7 @@ export function ShopDetail({ shop, onClose }: ShopDetailProps) {
       {onClose && (
         <button
           onClick={onClose}
-          className="absolute top-2 left-2 sm:right-2 z-10 w-5 h-5 flex items-center justify-center hover:bg-white rounded-full text-white font-bold text-base shadow-lg transition-all hover:scale-110"
+          className="absolute top-2 left-2 md:left-auto md:right-2 z-10 w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-full text-white font-bold text-base shadow-lg transition-all hover:scale-110"
           aria-label="Close"
         >
           <svg
@@ -42,7 +42,7 @@ export function ShopDetail({ shop, onClose }: ShopDetailProps) {
             strokeWidth="3"
             stroke="white"
             fill="none"
-            className="w-3.5 h-3.5"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
