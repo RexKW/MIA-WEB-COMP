@@ -82,7 +82,7 @@ export default function MapPage() {
 
       {/* Shop Detail Overlay */}
       {activeShopId && (
-        <div className="absolute md:left-5 top-2 z-50 w-[200px] md:w-[400px] h-full bg-transparent shadow-xl overflow-y-auto">
+        <div className="absolute md:left-5 top-2 z-50 w-[200px] md:w-[400px] h-full bg-transparent overflow-y-auto">
           <ShopDetail shop={shops.find(s => s.id === activeShopId)!} />
         </div>
       )}
