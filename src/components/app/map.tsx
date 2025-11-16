@@ -7,15 +7,27 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Shop } from "@/types/shop";
 import { MapZoom } from "@/components/app/map-zoom";
 
-function ZoomControlPositioner() {
+function ZoomControlPositioner({ activeShopId }: { activeShopId?: string | null }) {
   const map = useMap();
 
   useEffect(() => {
     const zoomControl = map.zoomControl;
     if (zoomControl) {
       zoomControl.setPosition("topright");
+      
+      // Hide zoom controls on mobile when a shop is selected
+      const isMobile = window.innerWidth <= 768;
+      const container = zoomControl.getContainer();
+      
+      if (container) {
+        if (isMobile && activeShopId) {
+          container.style.display = "none";
+        } else {
+          container.style.display = "block";
+        }
+      }
     }
-  }, [map]);
+  }, [map, activeShopId]);
 
   return null;
 }
@@ -55,7 +67,7 @@ export function Map({ shops, activeShopId }: MapProps) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <ZoomControlPositioner />
+      <ZoomControlPositioner activeShopId={activeShopId} />
 
       <MapZoom shops={shops} activeShopId={activeShopId} />
 

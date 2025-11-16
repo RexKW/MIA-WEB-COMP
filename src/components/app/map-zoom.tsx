@@ -26,9 +26,8 @@ export function MapZoom({ shops, activeShopId }: MapZoomProps) {
       setTimeout(() => {
         const offsetY = -window.innerHeight * 0.75; // 25% from bottom
         map.panBy([0, offsetY], { animate: true });
-      }, 1500); 
+      }, 1500);
     }
-
   }, [activeShopId, shops, map]);
 
   return null;
