@@ -197,7 +197,7 @@ export function MapMobile({ shops }: MobileMapPageProps) {
             ref={detailRef}
             className="
               absolute left-10 top-5 z-650 w-[300px] h-[90%]
-              shadow-xl overflow-y-auto
+              overflow-y-auto
             "
           >
             <ShopDetail
