@@ -120,11 +120,18 @@ export function ShopDetail({ shop, onClose }: ShopDetailProps) {
             {shop.catalog.slice(0, 3).map((item) => (
               <div
                 key={item.id}
-                className="bg-[#01355F] h-28 rounded-xl flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-[#014570] transition"
+                className="bg-[#01355F] rounded-xl flex flex-col cursor-pointer hover:bg-[#014570] transition overflow-hidden"
                 onClick={() => router.push(`/shops/${shop.id}/catalog`)}
               >
-                <span className="text-3xl mb-1">{item.image}</span>
-                <p className="text-xs text-center text-[#A9C9E8] line-clamp-2">
+                <div className="relative w-full h-20">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <p className="text-xs text-center text-[#A9C9E8] line-clamp-2 p-2">
                   {item.name}
                 </p>
               </div>
