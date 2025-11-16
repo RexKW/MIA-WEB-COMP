@@ -191,6 +191,12 @@ export function MapMobile({ shops }: MobileMapPageProps) {
               bg-white shadow-xl overflow-y-auto rounded-xl
             "
           >
+            <button
+              onClick={() => setActiveShopId(null)}
+              className="absolute top-3 right-3 text-xl font-bold text-gray-600 hover:text-gray-900"
+            >
+              &times;
+            </button>
             <ShopDetail shop={shops.find(s => s.id === delayedActiveShopId)!} />
           </div>
         )}
