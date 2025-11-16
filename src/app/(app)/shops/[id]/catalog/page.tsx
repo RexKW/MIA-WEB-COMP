@@ -1,11 +1,22 @@
 "use client";
 
-import { useState } from 'react';
-import {
-  Heart, ShoppingBag, Search, Menu, X, Home, Coffee, Gift, Star
-} from 'lucide-react';
+import { use, useState } from "react";
+import { Heart, Search, Menu } from "lucide-react";
+import { shops } from "@/utils/shop";
+import { notFound } from "next/navigation";
 
-export default function ShopCataloguePage() {
+export default function ShopCatalogPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+  const shop = shops.find((s) => s.id === id);
+
+  if (!shop) {
+    notFound();
+  }
+
   const [favorites, setFavorites] = useState(new Set());
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -14,7 +25,7 @@ export default function ShopCataloguePage() {
   const [sortType, setSortType] = useState("default");
 
   const toggleFavorite = (id: number) => {
-    setFavorites(prev => {
+    setFavorites((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) newSet.delete(id);
       else newSet.add(id);
@@ -22,31 +33,28 @@ export default function ShopCataloguePage() {
     });
   };
 
-  const products = [
-    { id: 1, cat: "coldbrew", name: 'Cold Brew', price: 2.95, image: '🥤', popular: 50, sold: 70, date: 20230101 },
-    { id: 2, cat: "coldbrew", name: 'Pumpkin Spice Cream Cold Brew', price: 4.25, image: '🥤', badge: 'Season 🔥', popular: 80, sold: 120, date: 20241015 },
-    { id: 3, cat: "coldbrew", name: 'Cold Brew with Salted Caramel Cream', price: 4.25, image: '🥤', badge: 'New 💎', popular: 95, sold: 40, date: 20241102 },
+  const products = shop.catalog;
 
-    { id: 6, cat: "lattes", name: 'Iced Pumpkin Spice Latte', price: 4.25, image: '☕', badge: 'Season 🔥', popular: 75, sold: 90, date: 20241001 },
-    { id: 7, cat: "lattes", name: 'Latte Macchiato', price: 3.96, image: '☕', popular: 40, sold: 50, date: 20230101 },
-
-    { id: 11, cat: "espresso", name: 'Espresso', price: 2.45, image: '☕', badge: 'Popular 🏆', popular: 99, sold: 200, date: 20220101 },
-    { id: 12, cat: "espresso", name: 'Espresso Macchiato', price: 2.65, image: '☕', popular: 60, sold: 70, date: 20220202 },
-
-    { id: 20, cat: "other", name: 'Hot Chocolate', price: 2.15, image: '🍫', popular: 30, sold: 35, date: 20210101 },
-  ];
-
-  const filteredProducts = category === "all" ? products : products.filter(p => p.cat === category);
-  const searchedProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(searchText));
+  const filteredProducts =
+    category === "all" ? products : products.filter((p) => p.cat === category);
+  const searchedProducts = filteredProducts.filter((p) =>
+    p.name.toLowerCase().includes(searchText)
+  );
 
   const sortedProducts = [...searchedProducts].sort((a, b) => {
     switch (sortType) {
-      case "popular": return b.popular - a.popular;
-      case "bestselling": return b.sold - a.sold;
-      case "new": return b.date - a.date;
-      case "price_low": return a.price - b.price;
-      case "price_high": return b.price - a.price;
-      default: return 0;
+      case "popular":
+        return b.popular - a.popular;
+      case "bestselling":
+        return b.sold - a.sold;
+      case "new":
+        return b.date - a.date;
+      case "price_low":
+        return a.price - b.price;
+      case "price_high":
+        return b.price - a.price;
+      default:
+        return 0;
     }
   });
 
@@ -67,7 +75,7 @@ export default function ShopCataloguePage() {
                 </button>
               )}
               <div className="text-2xl font-bold text-emerald-700 tracking-tight">
-                Catalogue
+                {shop.name} - Catalog
               </div>
             </div>
 
@@ -100,10 +108,11 @@ export default function ShopCataloguePage() {
               <button
                 key={s.key}
                 onClick={() => setSortType(s.key)}
-                className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition shadow-sm border ${sortType === s.key
-                  ? "bg-[#0056A3] text-white border-blue-600 shadow-md"
-                  : "bg-white text-[#0056A3] border-[#46C4FF66] hover:bg-[#46C4FF20]"
-                  }`}
+                className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition shadow-sm border ${
+                  sortType === s.key
+                    ? "bg-[#0056A3] text-white border-blue-600 shadow-md"
+                    : "bg-white text-[#0056A3] border-[#46C4FF66] hover:bg-[#46C4FF20]"
+                }`}
               >
                 {s.label}
               </button>
@@ -113,7 +122,9 @@ export default function ShopCataloguePage() {
           {/* PRODUCT LIST */}
           <section className="mx-6 mt-8 bg-white rounded-3xl p-8 shadow-sm border border-[#46C4FF33]">
             <h2 className="text-2xl font-bold mb-6 text-emerald-700 tracking-tight">
-              {category === "all" ? "All Products" : category.charAt(0).toUpperCase() + category.slice(1)}
+              {category === "all"
+                ? "All Products"
+                : category.charAt(0).toUpperCase() + category.slice(1)}
             </h2>
 
             <div className="grid grid-cols-4 gap-6">
@@ -134,7 +145,11 @@ export default function ShopCataloguePage() {
                     className="absolute top-3 right-3 w-9 h-9 bg-white border border-[#46C4FF33] rounded-full flex items-center justify-center hover:scale-110 transition-all shadow-sm"
                   >
                     <Heart
-                      className={`w-4 h-4 ${favorites.has(item.id) ? "fill-red-500 text-red-500" : "text-[#0056A3]"}`}
+                      className={`w-4 h-4 ${
+                        favorites.has(item.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-[#0056A3]"
+                      }`}
                     />
                   </button>
 
@@ -147,7 +162,9 @@ export default function ShopCataloguePage() {
                   </h3>
 
                   <div className="flex items-center justify-between mt-3">
-                    <span className="font-bold text-lg text-emerald-700">${item.price}</span>
+                    <span className="font-bold text-lg text-emerald-700">
+                      ${item.price}
+                    </span>
                   </div>
                 </div>
               ))}

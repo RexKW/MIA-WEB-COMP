@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import { useRouter } from "next/navigation";
 import { Shop } from "@/types/shop";
 import Image from "next/image";
 
@@ -11,7 +12,7 @@ interface ShopDetailProps {
 
 export function ShopDetail({ shop }: ShopDetailProps) {
   const [activeTab, setActiveTab] = useState<"catalog" | "media">("catalog");
-
+  const router = useRouter();
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   // GSAP animation when tab changes
@@ -90,7 +91,12 @@ export function ShopDetail({ shop }: ShopDetailProps) {
           </button>
         </div>
 
-        <button className="text-sm text-[#A4CBE5]">More...</button>
+        <button 
+          className="text-sm text-[#A4CBE5] hover:text-[#94FFEF] transition"
+          onClick={() => router.push(`/shops/${shop.id}/${activeTab}`)}
+        >
+          More...
+        </button>
       </div>
 
       {/* Tab Content */}
@@ -98,17 +104,36 @@ export function ShopDetail({ shop }: ShopDetailProps) {
 
         {activeTab === "catalog" && (
           <div className="grid grid-cols-3 gap-3 mt-2">
-            <div className="bg-[#01355F] h-28 rounded-xl"></div>
-            <div className="bg-[#01355F] h-28 rounded-xl"></div>
-            <div className="bg-[#01355F] h-28 rounded-xl"></div>
+            {shop.catalog.slice(0, 3).map((item) => (
+              <div 
+                key={item.id}
+                className="bg-[#01355F] h-28 rounded-xl flex flex-col items-center justify-center p-2 cursor-pointer hover:bg-[#014570] transition"
+                onClick={() => router.push(`/shops/${shop.id}/catalog`)}
+              >
+                <span className="text-3xl mb-1">{item.image}</span>
+                <p className="text-xs text-center text-[#A9C9E8] line-clamp-2">{item.name}</p>
+              </div>
+            ))}
           </div>
         )}
 
         {activeTab === "media" && (
           <div className="grid grid-cols-3 gap-3 mt-2">
-            <div className="bg-[#004072] h-28 rounded-xl"></div>
-            <div className="bg-[#004072] h-28 rounded-xl"></div>
-            <div className="bg-[#004072] h-28 rounded-xl"></div>
+            {shop.media.slice(0, 3).map((video) => (
+              <div 
+                key={video.id}
+                className="bg-[#004072] h-28 rounded-xl overflow-hidden cursor-pointer hover:bg-[#005090] transition"
+                onClick={() => router.push(`/shops/${shop.id}/media`)}
+              >
+                <Image 
+                  src={video.thumbnail} 
+                  alt={video.title}
+                  width={150}
+                  height={112}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
           </div>
         )}
 

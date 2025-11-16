@@ -1,4 +1,4 @@
-import { Star, MapPinned } from "lucide-react";
+import { MapPinned } from "lucide-react";
 
 export const navItems = [
   {
@@ -11,19 +11,4 @@ export const navItems = [
     url: "/map",
     icon: MapPinned,
   },
-  {
-    title: "Favorites",
-    url: "/favorites",
-    icon: Star,
-  },
-  {
-    title: "Catalogue",
-    url: "/shops/id/catalogue",
-    icon: Star,
-  },
-  {
-    title: "Media",
-    url: "/shops/id/media",
-    icon: Star,
-  }
 ];
