@@ -72,18 +72,19 @@ export function MapMobile({ shops }: MobileMapPageProps) {
 
   const categories = Array.from(new Set(shops.map((s) => s.category)));
 
-  const [delayedActiveShopId, setDelayedActiveShopId] = useState<string | null>(null);
+  const [delayedActiveShopId, setDelayedActiveShopId] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
-    if (activeShopId) {
-      const timeout = setTimeout(() => {
+    const timeout = setTimeout(
+      () => {
         setDelayedActiveShopId(activeShopId);
-      }, 2000); // delay time
+      },
+      activeShopId ? 2000 : 0
+    ); // delay time for non-null, immediate for null
 
-      return () => clearTimeout(timeout);
-    } else {
-      setDelayedActiveShopId(null);
-    }
+    return () => clearTimeout(timeout);
   }, [activeShopId]);
 
   const detailRef = useRef<HTMLDivElement | null>(null);
@@ -98,7 +99,6 @@ export function MapMobile({ shops }: MobileMapPageProps) {
       });
     }
   }, [delayedActiveShopId]);
-
 
   return (
     <SidebarProvider>
@@ -132,7 +132,9 @@ export function MapMobile({ shops }: MobileMapPageProps) {
               <div className="overflow-x-auto hide-scrollbar px-4">
                 <div className="inline-flex items-center gap-2">
                   <Badge
-                    variant={selectedCategory === "All" ? "default" : "secondary"}
+                    variant={
+                      selectedCategory === "All" ? "default" : "secondary"
+                    }
                     className="cursor-pointer font-bold whitespace-nowrap"
                     onClick={() => setSelectedCategory("All")}
                   >
@@ -144,7 +146,9 @@ export function MapMobile({ shops }: MobileMapPageProps) {
                       <Badge
                         key={category}
                         variant={
-                          selectedCategory === category ? "default" : "secondary"
+                          selectedCategory === category
+                            ? "default"
+                            : "secondary"
                         }
                         className="cursor-pointer font-bold flex items-center gap-1 whitespace-nowrap"
                         onClick={() => setSelectedCategory(category)}
@@ -158,7 +162,6 @@ export function MapMobile({ shops }: MobileMapPageProps) {
               </div>
             </div>
 
-
             <div className="shrink-0 overflow-x-auto hide-scrollbar px-4">
               <div className="inline-flex gap-4">
                 {filteredShops.map((shop) => (
@@ -167,19 +170,25 @@ export function MapMobile({ shops }: MobileMapPageProps) {
                     onClick={() => setActiveShopId(shop.id)}
                     className="cursor-pointer w-64 shrink-0"
                   >
-                    <ShopCard {...shop} compact className="w-full" variant="flat" />
+                    <ShopCard
+                      {...shop}
+                      compact
+                      className="w-full"
+                      variant="flat"
+                    />
                   </div>
                 ))}
               </div>
-
             </div>
           </>
         )}
 
-
-
         {/* Map Section */}
-        <div className={`flex-1 w-full overflow-hidden ${activeShopId ? "h-full" : "min-h-0"}`}>
+        <div
+          className={`flex-1 w-full overflow-hidden ${
+            activeShopId ? "h-full" : "min-h-0"
+          }`}
+        >
           <Map shops={shops} activeShopId={activeShopId} />
         </div>
 
@@ -187,20 +196,16 @@ export function MapMobile({ shops }: MobileMapPageProps) {
           <div
             ref={detailRef}
             className="
-              absolute left-10 top-5 z-[650] w-[300px] h-[90%]
-              bg-white shadow-xl overflow-y-auto rounded-xl
+              absolute left-10 top-5 z-650 w-[300px] h-[90%]
+              shadow-xl overflow-y-auto
             "
           >
-            <button
-              onClick={() => setActiveShopId(null)}
-              className="absolute top-3 right-3 text-xl font-bold text-gray-600 hover:text-gray-900"
-            >
-              &times;
-            </button>
-            <ShopDetail shop={shops.find(s => s.id === delayedActiveShopId)!} />
+            <ShopDetail
+              shop={shops.find((s) => s.id === delayedActiveShopId)!}
+              onClose={() => setActiveShopId(null)}
+            />
           </div>
         )}
-
       </SidebarInset>
     </SidebarProvider>
   );

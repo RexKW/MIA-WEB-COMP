@@ -20,7 +20,7 @@ export default function ShopCatalogPage({
   const [favorites, setFavorites] = useState(new Set());
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const [category, setCategory] = useState("all");
+  const category = "all";
   const [searchText, setSearchText] = useState("");
   const [sortType, setSortType] = useState("default");
 
@@ -59,10 +59,10 @@ export default function ShopCatalogPage({
   });
 
   return (
-    <div className="flex min-h-screen bg-blue-50">
+    <div className="flex min-h-screen bg-sidebar">
       <div className="flex-1 transition-all duration-300">
         {/* HEADER */}
-        <header className="bg-white shadow-sm w-full border-b border-[#46C4FF33]">
+        <header className="bg-background shadow-sm w-full border-b border-[#46C4FF33]">
           <div className="px-6 py-5 max-w-7xl mx-auto flex flex-col gap-4">
             {/* Top Row */}
             <div className="flex items-center gap-4">
@@ -122,9 +122,7 @@ export default function ShopCatalogPage({
           {/* PRODUCT LIST */}
           <section className="mx-6 mt-8 bg-white rounded-3xl p-8 shadow-sm border border-[#46C4FF33]">
             <h2 className="text-2xl font-bold mb-6 text-emerald-700 tracking-tight">
-              {category === "all"
-                ? "All Products"
-                : category.charAt(0).toUpperCase() + category.slice(1)}
+              All Products
             </h2>
 
             <div className="grid grid-cols-4 gap-6">

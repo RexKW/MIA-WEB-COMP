@@ -8,9 +8,10 @@ import Image from "next/image";
 
 interface ShopDetailProps {
   shop: Shop;
+  onClose?: () => void;
 }
 
-export function ShopDetail({ shop }: ShopDetailProps) {
+export function ShopDetail({ shop, onClose }: ShopDetailProps) {
   const [activeTab, setActiveTab] = useState<"catalog" | "media">("catalog");
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -27,7 +28,18 @@ export function ShopDetail({ shop }: ShopDetailProps) {
   }, [activeTab]);
 
   return (
-    <div className="flex flex-col bg-[#032D51] p-5 text-white rounded-2xl gap-5">
+    <div className="flex flex-col bg-[#032D51] p-5 text-white rounded-2xl gap-5 relative">
+
+      {/* Close Button */}
+      {onClose && (
+        <button
+          onClick={onClose}
+          className="absolute top-4 left-4 z-10 w-8 h-8 flex items-center justify-center bg-white/90 hover:bg-white rounded-full text-[#032D51] font-bold text-xl shadow-lg transition-all hover:scale-110"
+          aria-label="Close"
+        >
+          ×
+        </button>
+      )}
 
       {/* Title */}
       <p className="text-3xl text-center font-semibold">{shop.name}</p>
@@ -145,7 +157,6 @@ export function ShopDetail({ shop }: ShopDetailProps) {
         <div className="w-3 h-3 bg-[#4CA9FF] rounded-full"></div>
         <div className="w-3 h-3 bg-white rounded-full"></div>
       </div>
-
     </div>
   );
 }

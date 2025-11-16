@@ -40,6 +40,9 @@ type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  sidebarWidth: string;
+  sidebarWidthMobile: string;
+  sidebarWidthIcon: string;
 };
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
@@ -60,11 +63,17 @@ function SidebarProvider({
   className,
   style,
   children,
+  sidebarWidth = SIDEBAR_WIDTH,
+  sidebarWidthMobile = SIDEBAR_WIDTH_MOBILE,
+  sidebarWidthIcon = SIDEBAR_WIDTH_ICON,
   ...props
 }: React.ComponentProps<"div"> & {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  sidebarWidth?: string;
+  sidebarWidthMobile?: string;
+  sidebarWidthIcon?: string;
 }) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
@@ -122,8 +131,22 @@ function SidebarProvider({
       openMobile,
       setOpenMobile,
       toggleSidebar,
+      sidebarWidth,
+      sidebarWidthMobile,
+      sidebarWidthIcon,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
+    [
+      state,
+      open,
+      setOpen,
+      isMobile,
+      openMobile,
+      setOpenMobile,
+      toggleSidebar,
+      sidebarWidth,
+      sidebarWidthMobile,
+      sidebarWidthIcon,
+    ]
   );
 
   return (
@@ -133,8 +156,8 @@ function SidebarProvider({
           data-slot="sidebar-wrapper"
           style={
             {
-              "--sidebar-width": SIDEBAR_WIDTH,
-              "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
+              "--sidebar-width": sidebarWidth,
+              "--sidebar-width-icon": sidebarWidthIcon,
               ...style,
             } as React.CSSProperties
           }
@@ -163,7 +186,8 @@ function Sidebar({
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
 }) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+  const { isMobile, state, openMobile, setOpenMobile, sidebarWidthMobile } =
+    useSidebar();
 
   if (collapsible === "none") {
     return (
@@ -190,7 +214,7 @@ function Sidebar({
           className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
           style={
             {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+              "--sidebar-width": sidebarWidthMobile,
             } as React.CSSProperties
           }
           side={side}
