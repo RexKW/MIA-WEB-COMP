@@ -60,7 +60,7 @@ export function Map({ shops, activeShopId }: MapProps) {
       <MapZoom shops={shops} activeShopId={activeShopId} />
 
       {shops.map((shop) => (
-        <Marker key={shop.id} position={[shop.latitude, shop.longitude]}>
+        <Marker key={shop.id} position={[shop.latitude, shop.longitude]} zIndexOffset={9999}>
           <Popup>{shop.name}</Popup>
         </Marker>
       ))}

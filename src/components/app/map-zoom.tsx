@@ -21,6 +21,12 @@ export function MapZoom({ shops, activeShopId }: MapZoomProps) {
         duration: 1.5,
       });
     }
+
+    setTimeout(() => {
+        // Move map upward on screen → pin appears lower
+        const offsetY = -window.innerHeight * 0.75; // 25% from bottom
+        map.panBy([0, offsetY], { animate: true });
+      }, 1500); 
   }, [activeShopId, shops, map]);
 
   return null;

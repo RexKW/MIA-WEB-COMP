@@ -1,8 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
+import { gsap } from "gsap";
+import { useRef } from "react";
 
 import { Shop } from "@/types/shop";
 import { categoryIcons } from "@/utils/category";
@@ -18,6 +20,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { ShopDetail } from "./shop-detail";
 
 const Map = dynamic(
   () => import("@/components/app/map").then((mod) => ({ default: mod.Map })),
@@ -69,78 +72,129 @@ export function MapMobile({ shops }: MobileMapPageProps) {
 
   const categories = Array.from(new Set(shops.map((s) => s.category)));
 
+  const [delayedActiveShopId, setDelayedActiveShopId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (activeShopId) {
+      const timeout = setTimeout(() => {
+        setDelayedActiveShopId(activeShopId);
+      }, 2000); // delay time
+
+      return () => clearTimeout(timeout);
+    } else {
+      setDelayedActiveShopId(null);
+    }
+  }, [activeShopId]);
+
+  const detailRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (delayedActiveShopId && detailRef.current) {
+      gsap.from(detailRef.current, {
+        y: -40,
+        opacity: 0,
+        duration: 0.4,
+        ease: "power3.out",
+      });
+    }
+  }, [delayedActiveShopId]);
+
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <div>
+        <AppSidebar />
+      </div>
+
       <SidebarInset className="flex flex-col h-screen overflow-hidden">
         {/* Top Section */}
-        <div className="shrink-0 z-20 bg-background">
-          <div className="flex items-center gap-3 px-4 py-3">
-            {/* Sidebar Trigger */}
-            <SidebarTrigger className="-ml-1" />
+        {!activeShopId && (
+          <>
+            <div className="shrink-0 z-20 bg-background">
+              <div className="flex items-center gap-3 px-4 py-3">
+                {/* Sidebar Trigger */}
+                <SidebarTrigger className="-ml-1" />
 
-            {/* Search Bar */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search shops..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 h-10"
-              />
-            </div>
-          </div>
-
-          {/* Category Section */}
-          <div className="overflow-x-auto hide-scrollbar px-4">
-            <div className="inline-flex items-center gap-2">
-              <Badge
-                variant={selectedCategory === "All" ? "default" : "secondary"}
-                className="cursor-pointer font-bold whitespace-nowrap"
-                onClick={() => setSelectedCategory("All")}
-              >
-                All
-              </Badge>
-              {categories.map((category) => {
-                const IconComponent = categoryIcons[category];
-                return (
-                  <Badge
-                    key={category}
-                    variant={
-                      selectedCategory === category ? "default" : "secondary"
-                    }
-                    className="cursor-pointer font-bold flex items-center gap-1 whitespace-nowrap"
-                    onClick={() => setSelectedCategory(category)}
-                  >
-                    {IconComponent && <IconComponent className="w-4 h-4" />}
-                    {category}
-                  </Badge>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Shop Cards Section */}
-        <div className="shrink-0 overflow-x-auto hide-scrollbar px-4">
-          <div className="inline-flex gap-4">
-            {filteredShops.map((shop) => (
-              <div
-                key={shop.id}
-                onClick={() => setActiveShopId(shop.id)}
-                className="cursor-pointer w-64 shrink-0"
-              >
-                <ShopCard {...shop} compact className="w-full" variant="flat" />
+                {/* Search Bar */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search shops..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 h-10"
+                  />
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
+
+              {/* Category Section */}
+              <div className="overflow-x-auto hide-scrollbar px-4">
+                <div className="inline-flex items-center gap-2">
+                  <Badge
+                    variant={selectedCategory === "All" ? "default" : "secondary"}
+                    className="cursor-pointer font-bold whitespace-nowrap"
+                    onClick={() => setSelectedCategory("All")}
+                  >
+                    All
+                  </Badge>
+                  {categories.map((category) => {
+                    const IconComponent = categoryIcons[category];
+                    return (
+                      <Badge
+                        key={category}
+                        variant={
+                          selectedCategory === category ? "default" : "secondary"
+                        }
+                        className="cursor-pointer font-bold flex items-center gap-1 whitespace-nowrap"
+                        onClick={() => setSelectedCategory(category)}
+                      >
+                        {IconComponent && <IconComponent className="w-4 h-4" />}
+                        {category}
+                      </Badge>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+
+            <div className="shrink-0 overflow-x-auto hide-scrollbar px-4">
+              <div className="inline-flex gap-4">
+                {filteredShops.map((shop) => (
+                  <div
+                    key={shop.id}
+                    onClick={() => setActiveShopId(shop.id)}
+                    className="cursor-pointer w-64 shrink-0"
+                  >
+                    <ShopCard {...shop} compact className="w-full" variant="flat" />
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          </>
+        )}
+
+
 
         {/* Map Section */}
-        <div className="flex-1 w-full min-h-0 overflow-hidden">
+        <div className={`flex-1 w-full overflow-hidden ${activeShopId ? "h-full" : "min-h-0"}`}>
           <Map shops={shops} activeShopId={activeShopId} />
         </div>
+
+        {delayedActiveShopId !== null && (
+          <div
+            ref={detailRef}
+            className="
+              absolute left-10 top-5 z-[650] w-[300px] h-[90%]
+              bg-white shadow-xl overflow-y-auto rounded-xl
+            "
+          >
+            <ShopDetail shop={shops.find(s => s.id === delayedActiveShopId)!} />
+          </div>
+        )}
+
       </SidebarInset>
     </SidebarProvider>
   );
