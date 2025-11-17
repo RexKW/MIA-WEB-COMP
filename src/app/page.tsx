@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -132,25 +133,31 @@ export default function HomePage() {
         className="w-full h-screen bg-linear-to-r from-[#02559D] to-[#0099EB] relative overflow-hidden"
       >
         <div className="absolute inset-0 w-full">
-          <img
+          <Image
             ref={setImageRef(0)}
             src="/home/TopWaveBG.svg"
             className="absolute top-0 left-0 w-1/2 z-0 pointer-events-none"
             draggable="false"
+            width={200}
+            height={200}
             alt=""
           />
-          <img
+          <Image
             ref={setImageRef(1)}
             src="/home/ShopsBG.svg"
             className="absolute bottom-0 left-0 lg:w-3/5 z-0 pointer-events-none"
             draggable="false"
+            width={200}
+            height={200}
             alt=""
           />
-          <img
+          <Image
             ref={setImageRef(2)}
             src="/home/BottomWave.png"
             className="absolute bottom-0 z-20 lg:z-0 left-0 pointer-events-none"
             draggable="false"
+            width={200}
+            height={200}
             alt=""
           />
         </div>
@@ -158,10 +165,10 @@ export default function HomePage() {
         <div className="relative flex flex-col lg:flex-row w-full h-screen z-10">
           <div className="flex flex-col p-5 ml-2 lg:ml-10 mt-20 mb-5 lg:mt-40 md:basis-2/3 pointer-events-none">
             <div ref={titleRef}>
-              <h1 className="font-montserrat text-3xl md:text-6xl font-black text-white">
+              <h1 className="font-montserrat text-4xl md:text-6xl font-black text-white">
                 EMPOWERING LOCAL
               </h1>
-              <h1 className="text-3xl md:text-6xl font-montserrat font-black text-white">
+              <h1 className="text-4xl md:text-6xl font-montserrat font-black text-white">
                 EXPANDING REACH
               </h1>
             </div>
@@ -176,10 +183,12 @@ export default function HomePage() {
               orang-orang di sekitarnya
             </p>
           </div>
-          <img
+          <Image
             ref={setImageRef(3)}
             src="/home/SalesPerson.svg"
             className="absolute bottom-0 right-0 w-[250px] lg:w-[400px] z-0 lg:z-10"
+            width={200}
+            height={200}
             alt=""
           />
         </div>
@@ -187,9 +196,11 @@ export default function HomePage() {
 
       {/* Middle Section */}
       <div className="relative w-full flex flex-col justify-center items-center">
-        <img
+        <Image
           src="/home/MiddleBG.png"
           className="absolute inset-0 w-full h-full object-cover"
+          width={200}
+          height={200}
           alt=""
         />
         <div className="flex flex-col items-center w-full h-full">
@@ -198,11 +209,13 @@ export default function HomePage() {
             <div className="relative z-0 hidden lg:flex basis-1/2">
               <div
                 ref={circleRef}
-                className="w-0 h-0 md:w-128 md:h-128 mt-5 rounded-full bg-[#1BE399] absolute z-0 left-[-5vw]"
+                className="w-0 h-0 md:w-lg md:h-128 mt-5 rounded-full bg-[#1BE399] absolute z-0 left-[-5vw]"
               ></div>
-              <img
+              <Image
                 ref={phoneRef}
                 src="/home/Phone.svg"
+                width={200}
+                height={200}
                 alt=""
                 className="absolute top-[-5vw] w-[75%]"
               />
@@ -217,7 +230,7 @@ export default function HomePage() {
                 <h3 className="text-4xl text-center lg:text-start text-white font-black">
                   Apa itu <span className="text-[#1EED8C]">Loca</span>
                 </h3>
-                <p className="text-white font-semibold font-nunitoSans text-center lg:text-start text-xl lg:text-justify pt-4 lg:mr-20">
+                <p className="text-white font-semibold font-nunitoSans text-center lg:text-start text-xl pt-4 lg:mr-20">
                   <span className="text-[#1EED8C]">Loca</span> merupakan
                   platform yang membawa bisnis lokal ke dunia digital, membantu
                   mereka berkembang dan tetap terhubung dengan pelanggan
@@ -253,15 +266,35 @@ export default function HomePage() {
         </div>
 
         <div className="relative bg-[#0099EB] w-full">
-          <img src="/home/Shops-full.svg" className="w-full z-10" alt="" />
+          <Image
+            src="/home/Shops-full.svg"
+            className="w-full z-10"
+            width={200}
+            height={200}
+            alt=""
+          />
           <div className="flex flex-col items-center mt-[-10%]">
             <div className="flex justify-between">
-              <img src="/home/PakaianStall.svg" className="w-[25%]" alt="" />
-              <img src="/home/FoodStall.svg" className="w-[25%]" alt="" />
+              <Image
+                src="/home/PakaianStall.svg"
+                className="w-[25%]"
+                width={200}
+                height={200}
+                alt=""
+              />
+              <Image
+                src="/home/FoodStall.svg"
+                className="w-[25%]"
+                width={200}
+                height={200}
+                alt=""
+              />
             </div>
-            <img
+            <Image
               src="/home/ServiceStall.svg"
               className="w-[25%] relative mt-[-5%]"
+              width={200}
+              height={200}
               alt=""
             />
           </div>

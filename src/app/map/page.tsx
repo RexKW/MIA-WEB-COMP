@@ -77,23 +77,23 @@ export default function MapPage() {
   }
 
   return (
-  <MapPageSidebar shops={shops} onShopClick={setActiveShopId}>
-    <div className="relative w-full h-full">
+    <MapPageSidebar shops={shops} onShopClick={setActiveShopId}>
+      <div className="relative w-full h-full">
+        {/* Shop Detail Overlay */}
+        {activeShopId && (
+          <div className="absolute md:left-5 top-2 z-50 w-[200px] md:w-[400px] h-full bg-transparent overflow-y-auto">
+            <ShopDetail
+              shop={shops.find((s) => s.id === activeShopId)!}
+              onClose={() => setActiveShopId(null)}
+            />
+          </div>
+        )}
 
-      {/* Shop Detail Overlay */}
-      {activeShopId && (
-        <div className="absolute md:left-5 top-2 z-50 w-[200px] md:w-[400px] h-full bg-transparent overflow-y-auto">
-          <ShopDetail shop={shops.find(s => s.id === activeShopId)!} onClose={() => setActiveShopId(null)} />
+        {/* Map container ALWAYS stays mounted */}
+        <div className="absolute inset-0 z-0">
+          <Map shops={shops} activeShopId={activeShopId} />
         </div>
-      )}
-
-      {/* Map container ALWAYS stays mounted */}
-      <div className="absolute inset-0 z-0">
-        <Map shops={shops} activeShopId={activeShopId} />
       </div>
-
-    </div>
-  </MapPageSidebar>
-);
-
+    </MapPageSidebar>
+  );
 }

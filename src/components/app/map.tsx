@@ -7,18 +7,22 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Shop } from "@/types/shop";
 import { MapZoom } from "@/components/app/map-zoom";
 
-function ZoomControlPositioner({ activeShopId }: { activeShopId?: string | null }) {
+function ZoomControlPositioner({
+  activeShopId,
+}: {
+  activeShopId?: string | null;
+}) {
   const map = useMap();
 
   useEffect(() => {
     const zoomControl = map.zoomControl;
     if (zoomControl) {
       zoomControl.setPosition("topright");
-      
+
       // Hide zoom controls on mobile when a shop is selected
       const isMobile = window.innerWidth <= 768;
       const container = zoomControl.getContainer();
-      
+
       if (container) {
         if (isMobile && activeShopId) {
           container.style.display = "none";
@@ -72,7 +76,11 @@ export function Map({ shops, activeShopId }: MapProps) {
       <MapZoom shops={shops} activeShopId={activeShopId} />
 
       {shops.map((shop) => (
-        <Marker key={shop.id} position={[shop.latitude, shop.longitude]} zIndexOffset={9999}>
+        <Marker
+          key={shop.id}
+          position={[shop.latitude, shop.longitude]}
+          zIndexOffset={9999}
+        >
           <Popup>{shop.name}</Popup>
         </Marker>
       ))}
