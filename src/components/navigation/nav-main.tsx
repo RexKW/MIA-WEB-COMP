@@ -44,7 +44,12 @@ export function NavMain({
                 <SidebarMenuButton asChild tooltip={item.title}>
                   <a href={item.url}>
                     {item.imageSrc ? (
-                      <Image src={item.imageSrc} alt={item.title} width={16} height={16} />
+                      <Image
+                        src={item.imageSrc}
+                        alt={item.title}
+                        width={16}
+                        height={16}
+                      />
                     ) : item.icon ? (
                       <item.icon />
                     ) : null}
@@ -66,7 +71,12 @@ export function NavMain({
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
                     {item.imageSrc ? (
-                      <Image src={item.imageSrc} alt={item.title} width={16} height={16} />
+                      <Image
+                        src={item.imageSrc}
+                        alt={item.title}
+                        width={16}
+                        height={16}
+                      />
                     ) : item.icon ? (
                       <item.icon />
                     ) : null}

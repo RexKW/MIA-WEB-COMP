@@ -13,10 +13,14 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-export default function ShopMediaPage({ params }: { params: Promise<{ id: string }> }) {
+export default function ShopMediaPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = use(params);
   const shop = shops.find((s) => s.id === id);
-  
+
   if (!shop) {
     notFound();
   }
@@ -47,9 +51,7 @@ export default function ShopMediaPage({ params }: { params: Promise<{ id: string
   const shopVideos = shop.media;
 
   // === SEMUA VIDEO LAINNYA (from other shops) ===
-  const videos = shops
-    .filter((s) => s.id !== shop.id)
-    .flatMap((s) => s.media);
+  const videos = shops.filter((s) => s.id !== shop.id).flatMap((s) => s.media);
 
   // === HANYA FILTER SEARCH, TANPA SORT ===
   const filteredVideos = videos.filter((video) =>
@@ -71,57 +73,59 @@ export default function ShopMediaPage({ params }: { params: Promise<{ id: string
               </h1>
             </div>
 
-          {/* SEARCH BAR */}
-          <div className="relative w-full max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#46C4FF]" />
-            <input
-              type="text"
-              placeholder="Cari video kopi..."
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-              className="w-full pl-10 pr-4 py-2 text-sm rounded-3xl border border-[#46C4FF66] bg-[#46C4FF20] focus:outline-none focus:ring-2 focus:ring-[#46C4FF] text-gray-700 placeholder-gray-500"
-            />
-          </div>
-        </div>
-      </header>
-
-      {/* MAIN CONTENT - Scrollable */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
-          {/* SHOP VIDEOS */}
-          <h2 className="text-lg sm:text-xl font-semibold text-emerald-700 mb-3">
-            Video dari Toko Ini
-          </h2>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-            {shopVideos.map((video) => (
-              <ShopMediaCard key={video.id} video={video} />
-            ))}
-          </div>
-
-          {/* MORE VIDEOS */}
-          <h2 className="text-lg sm:text-xl font-semibold text-emerald-700 mt-4 mb-3">
-            Video Lainnya
-          </h2>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {filteredVideos.map((video) => (
-              <ShopMediaCard key={video.id} video={video} />
-            ))}
-          </div>
-
-          {filteredVideos.length === 0 && (
-            <div className="text-center py-8 sm:py-12">
-              <Search className="w-12 h-12 sm:w-14 sm:h-14 text-gray-400 mx-auto" />
-              <p className="text-gray-600 text-sm sm:text-base mt-3">
-                Tidak ada video ditemukan
-              </p>
-              <p className="text-gray-400 text-xs sm:text-sm mt-1">Coba kata kunci lain</p>
+            {/* SEARCH BAR */}
+            <div className="relative w-full max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#46C4FF]" />
+              <input
+                type="text"
+                placeholder="Cari video kopi..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+                className="w-full pl-10 pr-4 py-2 text-sm rounded-3xl border border-[#46C4FF66] bg-[#46C4FF20] focus:outline-none focus:ring-2 focus:ring-[#46C4FF] text-gray-700 placeholder-gray-500"
+              />
             </div>
-          )}
-        </div>
-      </main>
-    </SidebarInset>
+          </div>
+        </header>
+
+        {/* MAIN CONTENT - Scrollable */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
+            {/* SHOP VIDEOS */}
+            <h2 className="text-lg sm:text-xl font-semibold text-emerald-700 mb-3">
+              Video dari Toko Ini
+            </h2>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+              {shopVideos.map((video) => (
+                <ShopMediaCard key={video.id} video={video} />
+              ))}
+            </div>
+
+            {/* MORE VIDEOS */}
+            <h2 className="text-lg sm:text-xl font-semibold text-emerald-700 mt-4 mb-3">
+              Video Lainnya
+            </h2>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {filteredVideos.map((video) => (
+                <ShopMediaCard key={video.id} video={video} />
+              ))}
+            </div>
+
+            {filteredVideos.length === 0 && (
+              <div className="text-center py-8 sm:py-12">
+                <Search className="w-12 h-12 sm:w-14 sm:h-14 text-gray-400 mx-auto" />
+                <p className="text-gray-600 text-sm sm:text-base mt-3">
+                  Tidak ada video ditemukan
+                </p>
+                <p className="text-gray-400 text-xs sm:text-sm mt-1">
+                  Coba kata kunci lain
+                </p>
+              </div>
+            )}
+          </div>
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
